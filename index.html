@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude AI: เจาะลึกปัญญาประดิษฐ์ยุคใหม่</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Library สำหรับแปลง HTML เป็นรูปภาพ -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Palette: Vibrant Cyberpunk/Tech 
+         Background: #0f172a (Dark Slate)
+         Card Bg: #1e293b (Slate 800)
+         Primary Text: #f8fafc (Slate 50)
+         Accent 1 (Cyan): #06b6d4 
+         Accent 2 (Violet): #8b5cf6
+         Accent 3 (Rose): #f43f5e
+    -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        tech: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            text: '#f8fafc',
+                            cyan: '#06b6d4',
+                            violet: '#8b5cf6',
+                            rose: '#f43f5e',
+                            slate: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #06b6d4, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Custom Scrollbar for Chat */
+        .chat-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 3px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body id="capture-area" class="font-sans antialiased overflow-x-hidden selection:bg-tech-violet selection:text-white">
+
+    <!-- Navbar -->
+    <nav data-html2canvas-ignore="true" class="sticky top-0 z-50 bg-tech-bg/90 backdrop-blur border-b border-tech-slate/20 py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tighter"><span class="text-tech-cyan">Claude</span><span class="text-tech-violet">AI</span></h1>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex space-x-6 text-sm font-semibold text-tech-slate mr-4">
+                    <a href="#overview" class="hover:text-tech-cyan transition">Overview</a>
+                    <a href="#models" class="hover:text-tech-cyan transition">Models</a>
+                    <a href="#performance" class="hover:text-tech-cyan transition">Performance</a>
+                    <a href="#safety" class="hover:text-tech-cyan transition">Safety</a>
+                </div>
+                <!-- FB Share Button (Generate Image) -->
+                <button onclick="downloadInfographic()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-bold py-2 px-4 rounded-full transition flex items-center gap-2 shadow-lg">
+                    <span>📸 Save for Facebook</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative py-20 px-6 text-center overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-tech-violet/20 rounded-full blur-[100px] -z-10"></div>
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 mb-6 rounded-full bg-tech-cyan/10 border border-tech-cyan/30 text-tech-cyan text-sm font-bold animate-pulse">
+                New Generation AI
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                รู้จักกับ <span class="gradient-text">Claude AI</span>
+            </h1>
+            <p class="text-xl text-tech-slate mb-10 max-w-2xl mx-auto">
+                คู่มือเจาะลึกปัญญาประดิษฐ์จาก Anthropic ที่เน้นความปลอดภัย ความสามารถในการเข้าใจบริบทขนาดยักษ์ และประสิทธิภาพระดับโลก
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-4 bg-tech-card rounded-lg border border-tech-slate/10">
+                    <div class="text-3xl font-bold text-tech-cyan">200K+</div>
+                    <div class="text-xs text-tech-slate uppercase mt-1">Context Window</div>
+                </div>
+                <div class="p-4 bg-tech-card rounded-lg border border-tech-slate/10">
+                    <div class="text-3xl font-bold text-tech-violet">Safe</div>
+                    <div class="text-xs text-tech-slate uppercase mt-1">Constitutional AI</div>
+                </div>
+                <div class="p-4 bg-tech-card rounded-lg border border-tech-slate/10">
+                    <div class="text-3xl font-bold text-tech-rose">Human</div>
+                    <div class="text-xs text-tech-slate uppercase mt-1">Natural Tone</div>
+                </div>
+                <div class="p-4 bg-tech-card rounded-lg border border-tech-slate/10">
+                    <div class="text-3xl font-bold text-white">#1</div>
+                    <div class="text-xs text-tech-slate uppercase mt-1">Coding Logic</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-16 bg-tech-card/30">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Claude AI คืออะไร?</h2>
+                <p class="text-tech-slate text-lg">
+                    Claude (อ่านว่า "คลอด" หรือ "โคลด") คือ AI Chatbot ที่พัฒนาโดยบริษัท <span class="text-white font-bold">Anthropic</span> ซึ่งก่อตั้งโดยอดีตพนักงานระดับสูงของ OpenAI จุดเด่นของ Claude คือการถูกสร้างขึ้นด้วยหลักการ "Constitutional AI" เพื่อให้เป็น AI ที่มีประโยชน์ ซื่อสัตย์ และไม่เป็นอันตราย
+                </p>
+            </div>
+
+            <!-- CSS Flowchart: Evolution -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 relative">
+                <!-- Line connector for desktop -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-tech-cyan via-tech-violet to-tech-rose -z-10 -translate-y-1/2 opacity-30"></div>
+
+                <!-- Step 1 -->
+                <div class="bg-tech-bg p-6 rounded-xl border border-tech-cyan/30 shadow-[0_0_15px_rgba(6,182,212,0.2)] relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-tech-cyan rounded-full flex items-center justify-center font-bold text-tech-bg">1</div>
+                    <h3 class="text-xl font-bold text-tech-cyan mb-2 text-center mt-4">Claude 1 & 2</h3>
+                    <p class="text-sm text-tech-slate text-center">จุดเริ่มต้นของ Context Window ขนาดใหญ่ (100k) และการอ่านเอกสาร PDF ที่แม่นยำ</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-tech-bg p-6 rounded-xl border border-tech-violet/30 shadow-[0_0_15px_rgba(139,92,246,0.2)] relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-tech-violet rounded-full flex items-center justify-center font-bold text-white">2</div>
+                    <h3 class="text-xl font-bold text-tech-violet mb-2 text-center mt-4">Claude 3 Family</h3>
+                    <p class="text-sm text-tech-slate text-center">เปิดตัว 3 รุ่นย่อย (Haiku, Sonnet, Opus) เพื่อตอบโจทย์ความเร็วและความฉลาดที่แตกต่างกัน</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-tech-bg p-6 rounded-xl border border-tech-rose/30 shadow-[0_0_15px_rgba(244,63,94,0.2)] relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-tech-rose rounded-full flex items-center justify-center font-bold text-white">3</div>
+                    <h3 class="text-xl font-bold text-tech-rose mb-2 text-center mt-4">Claude 3.5 Sonnet</h3>
+                    <p class="text-sm text-tech-slate text-center">รุ่นปัจจุบันที่เร็วและฉลาดที่สุด พร้อมฟีเจอร์ "Artifacts" สำหรับแสดงผล Code และ UI แบบเรียลไทม์</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Models Comparison -->
+    <section id="models" class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">ตระกูล Claude 3: เลือกใช้ให้ถูกงาน</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Haiku -->
+                <div class="glass-card p-6 rounded-2xl hover:bg-tech-card transition duration-300">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Haiku</h3>
+                    <p class="text-tech-cyan font-bold text-sm mb-4">เร็วที่สุด & ประหยัดที่สุด</p>
+                    <p class="text-tech-slate text-sm mb-6 h-20">เหมาะสำหรับงานที่ต้องการคำตอบทันที เช่น Customer Support, แปลภาษา, หรือสรุปข่าวสั้นๆ</p>
+                    <ul class="text-sm text-tech-slate space-y-2">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-tech-cyan rounded-full mr-2"></span>ความเร็ว: สูงมาก</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-tech-slate rounded-full mr-2"></span>ราคา: ต่ำมาก</li>
+                    </ul>
+                </div>
+
+                <!-- Sonnet -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-tech-violet hover:bg-tech-card transition duration-300 transform scale-105 shadow-2xl">
+                    <div class="text-4xl mb-4">⚖️</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">3.5 Sonnet</h3>
+                    <p class="text-tech-violet font-bold text-sm mb-4">สมดุลที่ดีที่สุด (รุ่นยอดนิยม)</p>
+                    <p class="text-tech-slate text-sm mb-6 h-20">ฉลาดกว่า Opus เดิม แต่เร็วกว่า เก่งเรื่อง Coding, การเขียนบทความ, และการวิเคราะห์ข้อมูล</p>
+                    <ul class="text-sm text-tech-slate space-y-2">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-tech-violet rounded-full mr-2"></span>ความฉลาด: สูง</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-tech-violet rounded-full mr-2"></span>Coding: ยอดเยี่ยม</li>
+                    </ul>
+                </div>
+
+                <!-- Opus -->
+                <div class="glass-card p-6 rounded-2xl hover:bg-tech-card transition duration-300">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Opus</h3>
+                    <p class="text-tech-rose font-bold text-sm mb-4">ฉลาดที่สุด & ลึกซึ้งที่สุด</p>
+                    <p class="text-tech-slate text-sm mb-6 h-20">เหมาะสำหรับงานวิจัยที่ซับซ้อน การแก้สมการคณิตศาสตร์ยากๆ หรือการวางแผนกลยุทธ์</p>
+                    <ul class="text-sm text-tech-slate space-y-2">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-tech-rose rounded-full mr-2"></span>ตรรกะ: สูงที่สุด</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-tech-rose rounded-full mr-2"></span>ราคา: สูง</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Charts Section -->
+    <section id="performance" class="py-16 bg-tech-card/30">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center">ประสิทธิภาพและการเปรียบเทียบ</h2>
+            <p class="text-center text-tech-slate mb-12 max-w-2xl mx-auto">
+                กราฟด้านล่างแสดงข้อมูลจากการทดสอบ Benchmark มาตรฐาน (เช่น GPQA, MATH, MGSM) ซึ่งแสดงให้เห็นว่า Claude 3.5 Sonnet และ Opus ขึ้นมาเป็นผู้นำในหลายด้าน
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Chart 1: Capabilities Radar -->
+                <div class="bg-tech-bg p-6 rounded-2xl shadow-lg border border-tech-slate/10">
+                    <h3 class="text-xl font-bold text-white mb-2">จุดแข็งรายด้าน (Capabilities Profile)</h3>
+                    <p class="text-sm text-tech-slate mb-6">เปรียบเทียบความถนัดระหว่าง Claude 3.5 Sonnet กับ GPT-4o (โดยประมาณ)</p>
+                    <div class="chart-container">
+                        <canvas id="capabilitiesChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-tech-slate mt-4">*คะแนนเต็ม 100 อ้างอิงจากค่าเฉลี่ย Benchmark หลายตัวรวมกัน</p>
+                </div>
+
+                <!-- Chart 2: Benchmark Bar Chart -->
+                <div class="bg-tech-bg p-6 rounded-2xl shadow-lg border border-tech-slate/10">
+                    <h3 class="text-xl font-bold text-white mb-2">คะแนนทดสอบ Benchmark (MMLU & Coding)</h3>
+                    <p class="text-sm text-tech-slate mb-6">Claude 3.5 Sonnet ทำคะแนนด้านการเขียนโค้ด (HumanEval) ได้สูงมาก</p>
+                    <div class="chart-container">
+                        <canvas id="benchmarkChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-tech-slate mt-4">HumanEval (Coding) & MMLU (Knowledge)</p>
+                </div>
+            </div>
+
+            <!-- Context Window Visualization -->
+            <div class="mt-16 bg-tech-bg p-8 rounded-2xl border border-tech-slate/10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Context Window คืออะไร?</h3>
+                        <p class="text-tech-slate mb-4">
+                            Context Window คือ "ความจำระยะสั้น" ของ AI หรือปริมาณข้อมูลที่ AI สามารถอ่านและประมวลผลได้ในครั้งเดียว Claude โดดเด่นมากในเรื่องนี้
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">📚</span>
+                                <div>
+                                    <strong class="text-tech-cyan">200,000 Tokens (~150,000 คำ)</strong>
+                                    <p class="text-sm text-tech-slate">Claude สามารถอ่านหนังสือแฮร์รี่ พอตเตอร์ ภาค 1 จบได้ในคำสั่งเดียว และสรุปออกมาได้ทันที</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl mr-3">🔍</span>
+                                <div>
+                                    <strong class="text-tech-violet">Needle in a Haystack</strong>
+                                    <p class="text-sm text-tech-slate">ความแม่นยำในการหาข้อมูลเล็กๆ ที่ซ่อนอยู่ในเอกสารมหาศาลสูงถึง 99%+</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="chart-container h-64">
+                        <canvas id="contextChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Section -->
+    <section id="safety" class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">ทำไม Claude ถึง "ปลอดภัย"?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <!-- Conceptual Diagram using HTML/Tailwind -->
+                    <div class="relative p-8 bg-tech-card rounded-2xl border border-tech-slate/20">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-tech-cyan to-tech-violet rounded-t-2xl"></div>
+                        
+                        <!-- Box 1 -->
+                        <div class="bg-tech-bg border border-tech-cyan/50 p-4 rounded-lg mb-8 text-center relative z-10">
+                            <h4 class="font-bold text-tech-cyan">1. Principles (Constitution)</h4>
+                            <p class="text-xs text-tech-slate">ชุดกฎเกณฑ์: ห้ามเหยียดหยาม, ต้องเป็นกลาง, ไม่สนับสนุนความรุนแรง</p>
+                        </div>
+                        
+                        <!-- Arrow -->
+                        <div class="flex justify-center -mt-6 mb-2">
+                            <span class="text-tech-slate text-2xl">⬇️</span>
+                        </div>
+
+                        <!-- Box 2 -->
+                        <div class="bg-tech-bg border border-tech-violet/50 p-4 rounded-lg mb-8 text-center relative z-10">
+                            <h4 class="font-bold text-tech-violet">2. AI Feedback</h4>
+                            <p class="text-xs text-tech-slate">AI ตรวจสอบคำตอบของตัวเองเทียบกับกฎ (Self-Correction) ก่อนส่งให้มนุษย์ดู</p>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="flex justify-center -mt-6 mb-2">
+                            <span class="text-tech-slate text-2xl">⬇️</span>
+                        </div>
+
+                        <!-- Box 3 -->
+                        <div class="bg-tech-bg border border-tech-rose/50 p-4 rounded-lg text-center relative z-10">
+                            <h4 class="font-bold text-tech-rose">3. Final Model</h4>
+                            <p class="text-xs text-tech-slate">Claude ที่ตอบคำถามได้อย่างมีวิจารณญาณและปลอดภัย</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2">
+                    <h3 class="text-2xl font-bold text-white mb-4">Constitutional AI (CAI)</h3>
+                    <p class="text-tech-slate mb-6">
+                        ต่างจาก AI อื่นๆ ที่ใช้มนุษย์คอยให้คะแนนคำตอบทีละข้อ (RLHF) เป็นหลัก Claude ใช้ "รัฐธรรมนูญ" (Constitution) ซึ่งเป็นชุดกฎจริยธรรม ให้ AI ฝึกฝนและประเมินตัวเอง
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-tech-cyan/20 rounded-full flex items-center justify-center text-tech-cyan font-bold mr-4">1</div>
+                            <div>
+                                <h4 class="font-bold text-white">ลดอคติของมนุษย์</h4>
+                                <p class="text-sm text-tech-slate">ลดความเสี่ยงที่ AI จะเรียนรู้อคติจากการให้คะแนนของมนุษย์กลุ่มใดกลุ่มหนึ่ง</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-tech-violet/20 rounded-full flex items-center justify-center text-tech-violet font-bold mr-4">2</div>
+                            <div>
+                                <h4 class="font-bold text-white">โปร่งใสกว่า</h4>
+                                <p class="text-sm text-tech-slate">เราสามารถตรวจสอบ "กฎ" ที่ใช้สอน AI ได้ชัดเจนกว่าการตรวจสอบข้อมูลมหาศาล</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gemini AI Feature Section (Excluded from screenshot via data-html2canvas-ignore if needed, but keeping for now) -->
+    <section id="ask-gemini" class="py-16 bg-tech-card/50 relative overflow-hidden border-t border-tech-slate/20">
+        <!-- decorative bg elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-tech-cyan/5 rounded-full blur-[80px] -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-tech-violet/5 rounded-full blur-[80px] -z-10"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center">
+                <span class="gradient-text">AI Research Assistant</span> <span class="text-2xl align-top">✨</span>
+            </h2>
+            <p class="text-center text-tech-slate mb-8 max-w-2xl mx-auto">
+                มีคำถามเพิ่มเติมเกี่ยวกับ Claude AI หรือต้องการเปรียบเทียบข้อมูล? ให้ Gemini ช่วยตอบคำถามของคุณได้ทันทีเพื่อประกอบการค้นคว้า
+            </p>
+
+            <div class="max-w-2xl mx-auto bg-tech-bg border border-tech-cyan/30 rounded-2xl p-6 shadow-[0_0_30px_rgba(6,182,212,0.1)] flex flex-col h-[500px]">
+                <!-- Chat History -->
+                <div id="chat-history" class="flex-1 overflow-y-auto chat-scroll mb-4 space-y-4 p-2">
+                    <div class="text-left">
+                        <span class="inline-block bg-tech-violet/10 p-3 rounded-lg rounded-tl-none border border-tech-violet/30 text-white text-sm">
+                            <strong class="text-tech-violet block mb-1 text-xs">Gemini ✨</strong>
+                            สวัสดีครับ! ผมคือผู้ช่วยวิจัยของคุณ หากมีข้อสงสัยเกี่ยวกับ Claude, Anthropic หรือต้องการเปรียบเทียบ AI Models ถามได้เลยครับ
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Input Area -->
+                <div data-html2canvas-ignore="true" class="relative">
+                    <div id="loading-indicator" class="hidden absolute -top-8 left-0 text-tech-cyan text-xs flex items-center gap-2">
+                        <div class="w-2 h-2 bg-tech-cyan rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-tech-cyan rounded-full animate-bounce delay-100"></div>
+                        <div class="w-2 h-2 bg-tech-cyan rounded-full animate-bounce delay-200"></div>
+                        กำลังประมวลผลคำตอบ...
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="gemini-input" placeholder="พิมพ์คำถามของคุณที่นี่... (เช่น Constitutional AI คืออะไร)" 
+                            class="flex-1 bg-tech-card border border-tech-slate/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-tech-cyan transition text-sm"
+                            onkeypress="if(event.key === 'Enter') callGemini()">
+                        <button onclick="callGemini()" class="bg-gradient-to-r from-tech-cyan to-tech-violet text-white font-bold py-2 px-6 rounded-lg hover:opacity-90 transition flex items-center gap-2 shadow-lg hover:shadow-cyan/50">
+                            <span>ถาม</span> ✨
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-xs text-tech-slate/50 mt-4">Powered by Google Gemini API</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-tech-slate/10 text-center bg-tech-bg">
+        <p class="text-tech-slate text-sm">
+            Infographic Generated for Educational Research • Data based on Anthropic Public Reports (2024-2025)
+        </p>
+        <p class="text-tech-slate/50 text-xs mt-2">
+            Note: "Clawdbot" is a common phonetic spelling for Claude AI.
+        </p>
+    </footer>
+
+    <!-- Script for Charts, Gemini, and Download -->
+    <script>
+        // --- Gemini API Logic ---
+        async function callGemini() {
+            const input = document.getElementById('gemini-input');
+            const history = document.getElementById('chat-history');
+            const loading = document.getElementById('loading-indicator');
+            const userText = input.value.trim();
+            const apiKey = ""; // Injected by environment
+
+            if (!userText) return;
+
+            // 1. Add User Message to Chat
+            history.innerHTML += `
+                <div class="text-right">
+                    <span class="inline-block bg-tech-card p-3 rounded-lg rounded-tr-none border border-tech-slate/30 text-tech-slate text-sm">
+                        ${userText}
+                    </span>
+                </div>
+            `;
+            
+            // Clear input and show loading
+            input.value = '';
+            loading.classList.remove('hidden');
+            history.scrollTop = history.scrollHeight;
+
+            const systemPrompt = `Context: The user is viewing an infographic about Claude AI (Anthropic). 
+            User Question: ${userText}
+            Task: Answer the question accurately in Thai. Keep it concise (under 100 words if possible) and helpful for someone researching AI. Focus on facts about Claude, Anthropic, Constitutional AI, or comparisons with other models.`;
+
+            try {
+                // 2. Call Gemini API
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: systemPrompt }] }]
+                    })
+                });
+
+                if (!response.ok) throw new Error('API Request Failed');
+
+                const data = await response.json();
+                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "ขออภัย ไม่สามารถตอบคำถามได้ในขณะนี้ โปรดลองใหม่อีกครั้ง";
+
+                // 3. Add AI Response to Chat
+                history.innerHTML += `
+                    <div class="text-left">
+                        <span class="inline-block bg-tech-violet/10 p-3 rounded-lg rounded-tl-none border border-tech-violet/30 text-white text-sm">
+                            <strong class="text-tech-violet block mb-1 text-xs">Gemini ✨</strong>
+                            ${aiText}
+                        </span>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error(error);
+                history.innerHTML += `
+                    <div class="text-center text-tech-rose text-xs mt-2">
+                        เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}
+                    </div>
+                `;
+            } finally {
+                loading.classList.add('hidden');
+                history.scrollTop = history.scrollHeight;
+            }
+        }
+
+        // --- Chart Logic ---
+        // Common Chart Defaults
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Sarabun';
+
+        // 1. Capabilities Radar Chart
+        const ctxRadar = document.getElementById('capabilitiesChart').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['Coding (เขียนโค้ด)', 'Reasoning (ตรรกะ)', 'Math (คณิตศาสตร์)', 'Creative Writing', 'Nuance (ภาษาธรรมชาติ)', 'Vision (วิเคราะห์ภาพ)'],
+                datasets: [{
+                    label: 'Claude 3.5 Sonnet',
+                    data: [98, 95, 92, 96, 99, 94],
+                    fill: true,
+                    backgroundColor: 'rgba(139, 92, 246, 0.2)', // Violet
+                    borderColor: '#8b5cf6',
+                    pointBackgroundColor: '#8b5cf6',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#8b5cf6'
+                }, {
+                    label: 'GPT-4o (Estimate)',
+                    data: [92, 94, 95, 90, 93, 95],
+                    fill: true,
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)', // Cyan
+                    borderColor: '#06b6d4',
+                    pointBackgroundColor: '#06b6d4',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#06b6d4'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        pointLabels: {
+                            color: '#f8fafc',
+                            font: { size: 12 }
+                        },
+                        ticks: { display: false, backdropColor: 'transparent' },
+                        suggestedMin: 50,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#f8fafc' } },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) return label.join(' ');
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Benchmark Bar Chart
+        const ctxBar = document.getElementById('benchmarkChart').getContext('2d');
+        // Label wrapping helper
+        const wrapLabel = (str) => {
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length < 16) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        };
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('HumanEval (Coding)'), wrapLabel('MMLU (Knowledge)'), wrapLabel('GPQA (Grad Reasoning)'), wrapLabel('MGSM (Math)')],
+                datasets: [
+                    {
+                        label: 'Claude 3.5 Sonnet',
+                        data: [92.0, 88.7, 59.4, 91.6],
+                        backgroundColor: '#8b5cf6', // Violet
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'GPT-4o',
+                        data: [90.2, 88.7, 53.6, 90.5],
+                        backgroundColor: '#1e293b', // Dark Slate (Comparison)
+                        borderColor: '#94a3b8',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 40,
+                        max: 100,
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#f8fafc' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#f8fafc' } },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) return label.join(' ');
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. Context Window Chart (Horizontal Bar)
+        const ctxContext = document.getElementById('contextChart').getContext('2d');
+        new Chart(ctxContext, {
+            type: 'bar',
+            data: {
+                labels: ['Claude 3 Family', 'GPT-4 Turbo', 'Gemini 1.5 Pro (Preview)', 'Typical LLM'],
+                datasets: [{
+                    label: 'Tokens (Context Size)',
+                    data: [200000, 128000, 1000000, 32000],
+                    backgroundColor: [
+                        '#06b6d4', // Cyan (Claude)
+                        '#334155', // Slate
+                        '#f43f5e', // Rose (Gemini highlight)
+                        '#1e293b'  // Darker Slate
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Horizontal Bar
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#f8fafc' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) return label.join(' ');
+                                return label;
+                            },
+                            label: function(context) {
+                                return context.parsed.x.toLocaleString() + ' Tokens';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Screenshot / Download Logic ---
+        function downloadInfographic() {
+            const captureElement = document.getElementById('capture-area');
+            const button = document.querySelector('button[onclick="downloadInfographic()"]');
+            
+            // Visual feedback
+            const originalText = button.innerHTML;
+            button.innerHTML = '⏳ Generating...';
+            
+            html2canvas(captureElement, {
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#0f172a', // Ensure background color matches
+                scrollY: -window.scrollY // Correct scroll offset issue
+            }).then(canvas => {
+                // Create download link
+                const link = document.createElement('a');
+                link.download = 'Claude_AI_Infographic.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Reset button
+                button.innerHTML = originalText;
+                alert('ดาวน์โหลดรูปภาพเรียบร้อย! คุณสามารถนำรูปนี้ไปโพสต์ลง Facebook ได้เลยครับ');
+            }).catch(err => {
+                console.error(err);
+                button.innerHTML = '❌ Error';
+                alert('เกิดข้อผิดพลาดในการสร้างรูปภาพ โปรดลองอีกครั้ง');
+                setTimeout(() => button.innerHTML = originalText, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
